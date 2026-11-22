@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vaatteet">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#2457A6">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Lastenvaatteet</title>
+<style>
+:root{--bg:#F1F5F9;--card:#fff;--ink:#17233A;--mute:#66758C;--line:#DCE4EE;--pri:#2457A6;--pri-ink:#fff;--sun:#FFC93C;--rain:#2E9E8F;--warn:#C0392B;--r:18px}
+@media(prefers-color-scheme:dark){:root{--bg:#0E1522;--card:#18223A;--ink:#EAF0F8;--mute:#93A2BB;--line:#2A3858;--pri:#6FA2F0;--pri-ink:#0E1522;--rain:#4CC4B3}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.35 ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif}
+body{padding:env(safe-area-inset-top) 0 calc(96px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top);background:var(--bg);z-index:6}
+.top{display:flex;align-items:center;gap:8px}
+h1{font-size:24px;margin:0;flex:1;letter-spacing:-.3px}
+h1 small{display:block;font-size:13px;font-weight:500;color:var(--mute);letter-spacing:0}
+.ib{width:42px;height:42px;border-radius:50%;border:0;background:var(--card);color:var(--ink);font-size:20px;box-shadow:0 0 0 1px var(--line)}
+.ib.spin{animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.seg{display:flex;background:var(--card);border-radius:12px;padding:3px;margin:10px 0 8px;box-shadow:0 0 0 1px var(--line)}
+.seg button{flex:1;border:0;background:none;color:var(--mute);font:inherit;font-weight:600;padding:8px 0;border-radius:9px}
+.seg button.on{background:var(--pri);color:var(--pri-ink)}
+.row{display:flex;gap:8px;margin-bottom:8px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%;min-width:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:20px;padding:6px 12px;font-size:14px;font-weight:600}
+.chip input{width:auto;accent-color:var(--rain)}
+main{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:14px}
+@media(min-width:600px){main{grid-template-columns:repeat(4,1fr)}}
+.c{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 0 0 1px var(--line);border:0;padding:0;text-align:left;font:inherit;color:inherit}
+.ph{aspect-ratio:1;background:var(--line);display:grid;place-items:center;font-size:34px;color:var(--mute)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.in{padding:10px 12px 12px}
+.t{font-weight:700;line-height:1.2}
+.s{display:inline-block;margin-top:4px;background:var(--sun);color:#17233A;font-weight:800;border-radius:8px;padding:1px 8px;font-size:14px}
+.b{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap}
+.b i{font-style:normal;font-size:12px;font-weight:700;color:var(--rain);border:1.5px solid var(--rain);border-radius:8px;padding:0 6px}
+.n{color:var(--mute);font-size:13px;margin-top:4px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:40px 20px}
+#fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));height:58px;padding:0 22px;border:0;border-radius:29px;background:var(--pri);color:var(--pri-ink);font:inherit;font-weight:800;font-size:17px;box-shadow:0 6px 18px rgba(23,35,58,.3)}
+dialog{border:0;border-radius:22px 22px 0 0;background:var(--bg);color:var(--ink);width:100%;max-width:520px;margin:auto auto 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}
+dialog::backdrop{background:rgba(10,18,32,.55)}
+dialog h2{margin:0 0 12px;font-size:20px}
+label{display:block;font-size:14px;font-weight:700;color:var(--mute);margin:12px 0 4px}
+.pv{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-top:8px;display:none}
+.btns{display:flex;gap:8px;margin-top:18px}
+.btns button{flex:1;border:0;border-radius:14px;padding:14px;font:inherit;font-weight:800;background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.btns .p{background:var(--pri);color:var(--pri-ink);box-shadow:none}
+.btns .d{color:var(--warn)}
+.hint{font-size:13px;color:var(--mute);margin-top:8px}
+#toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-weight:600;font-size:14px;max-width:90%;display:none;z-index:20}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>Lastenvaatteet<small id="count"></small></h1>
+    <button class="ib" id="sync" aria-label="Päivitä">⟳</button>
+    <button class="ib" id="cog" aria-label="Asetukset">⚙︎</button>
+  </div>
+  <div class="seg" id="cat"><button data-v="" class="on">Kaikki</button><button data-v="in">Sisävaatteet</button><button data-v="out">Ulkovaatteet</button></div>
+  <div class="row"><input id="q" type="search" placeholder="Hae"></div>
+  <div class="row"><select id="ft"></select><select id="fs"></select></div>
+  <div class="chips">
+    <label class="chip"><input type="checkbox" id="fwp"> Vedenpitävä</label>
+    <label class="chip"><input type="checkbox" id="fwr"> Vettähylkivä</label>
+  </div>
+</header>
+<main id="grid"></main>
+<button id="fab">＋ Lisää vaate</button>
+<div id="toast"></div>
+
+<dialog id="ed">
+  <h2 id="edt">Uusi vaate</h2>
+  <label>Tyyppi</label><select id="et"></select>
+  <label>Koko</label><select id="es"></select>
+  <label>Käyttö</label>
+  <div class="seg" id="ecat" style="margin:0"><button data-v="in" class="on">Sisä</button><button data-v="out">Ulko</button></div>
+  <div id="ewrap" style="display:none" class="chips">
+    <label class="chip"><input type="checkbox" id="ewp"> Vedenpitävä</label>
+    <label class="chip"><input type="checkbox" id="ewr"> Vettähylkivä</label>
+  </div>
+  <label>Muistiinpano</label><textarea id="en" rows="2" placeholder="Esim. merkki, väri, kenelle periytyy"></textarea>
+  <label>Kuva</label><input id="ef" type="file" accept="image/*">
+  <img class="pv" id="pv" alt="">
+  <div class="btns"><button id="edel" class="d">Poista</button><button id="ecan">Peruuta</button><button id="esave" class="p">Tallenna</button></div>
+</dialog>
+
+<dialog id="st">
+  <h2>Asetukset</h2>
+  <label>Tietovarasto (omistaja/repo)</label><input id="sr" placeholder="esim. matti/vaatedata" autocapitalize="off" autocorrect="off">
+  <label>GitHub-token</label><input id="sk" type="password" placeholder="github_pat_…" autocapitalize="off" autocorrect="off">
+  <div class="hint">Token tallentuu vain tähän laitteeseen. Käytä tokenia, jolla on pääsy vain tähän yhteen repoon (Contents: Read and write).</div>
+  <div class="btns"><button id="scan">Sulje</button><button id="ssave" class="p">Tallenna</button></div>
+  <div class="btns"><button id="sqr">Jaa QR-koodilla toiselle</button></div>
+  <div id="qrbox" style="display:none;text-align:center;margin-top:12px">
+    <div style="background:#fff;padding:12px;border-radius:14px;display:inline-block"><img id="qrimg" alt="QR" style="width:240px;height:240px;image-rendering:pixelated;display:block"></div>
+    <div class="hint">Toinen skannaa koodin iPhonen kameralla ja avaa linkin Safarissa. Koodi sisältää tokenin, joten älä jaa sitä kuvana muille.</div>
+    <div class="btns"><button id="scopy">Kopioi linkki</button></div>
+  </div>
+  <label>Tai liitä asetuslinkki</label><input id="sl" placeholder="https://…#s=…" autocapitalize="off" autocorrect="off">
+  <div class="hint">Asennetussa kotivalikon sovelluksessa tämä on helpoin tapa: kopioi linkki, avaa sovellus ja liitä tähän.</div>
+</dialog>
+
+<script>
+const $=s=>document.querySelector(s);
+const TYPES=[['Body','in'],['Kietaisu-body','in'],['Housut','in'],['Potkuhousut','in'],['Legginsit','in'],['Paita, pitkähihainen','in'],['Paita, lyhythihainen','in'],['Mekko / tunika','in'],['Neule / collegepaita','in'],['Pyjamapuku','in'],['Pyjama','in'],['Kuolalappu','in'],['Sukat','in'],['Kengät','out'],['Kurahaalari','out'],['Kurahousut','out'],['Kuratakki','out'],['Kurahanskat','out'],['Ulkotakki','out'],['Ulkohousut','out'],['Talvihaalari','out'],['Välikausihaalari','out'],['Hanskat / lapaset','out'],['Pipo / myssy','out'],['Kaulus / tuubi','out'],['Muu','in']];
+const SIZES=['44','50','56','62','68','74','80','86','92','98','104','110','116','122','128','134','140','146','152','158','164'];
+const SHOES=Array.from({length:19},(_,i)=>String(16+i));
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const b64d=s=>decodeURIComponent(escape(atob(s.replace(/\s/g,''))));
+const b64e=s=>btoa(unescape(encodeURIComponent(s)));
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+let cfg=load('cfg',{}),items=load('items',[]),f={cat:'',q:'',type:'',size:'',wp:false,wr:false},cur=null,newPhoto=null;
+const imgCache={};
+
+function toast(m,ms=2600){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',ms)}
+
+/* GitHub */
+function gh(path,o={}){
+  return fetch(`https://api.github.com/repos/${cfg.repo}/contents/${path}`,{method:o.method||'GET',body:o.body,cache:'no-store',headers:{Authorization:'Bearer '+cfg.token,'X-GitHub-Api-Version':'2022-11-28',Accept:o.raw?'application/vnd.github.raw+json':'application/vnd.github+json',...(o.body?{'Content-Type':'application/json'}:{})}});
+}
+async function readData(){
+  const r=await gh('data.json');
+  if(r.status===404)return{list:[],sha:null};
+  if(!r.ok)throw new Error(r.status===401||r.status===403?'Token ei kelpaa tai ei oikeuksia':r.status===404?'Repoa ei löydy':'GitHub '+r.status);
+  const j=await r.json();return{list:JSON.parse(b64d(j.content)),sha:j.sha};
+}
+async function mutate(fn,msg){
+  for(let i=0;i<4;i++){
+    const{list,sha}=await readData();
+    const next=fn(list);
+    const body={message:msg,content:b64e(JSON.stringify(next,null,1))};
+    if(sha)body.sha=sha;
+    const r=await gh('data.json',{method:'PUT',body:JSON.stringify(body)});
+    if(r.ok){items=next;save('items',items);return}
+    if(r.status!==409&&r.status!==422)throw new Error(r.status===404?'Repoa ei löydy':'GitHub '+r.status);
+  }
+  throw new Error('Tallennus ei onnistunut, yritä uudelleen');
+}
+async function imgUrl(name){
+  if(imgCache[name])return imgCache[name];
+  const c=await caches.open('img'),key='/img/'+name;
+  let r=await c.match(key);
+  if(!r){const g=await gh('images/'+name,{raw:true});if(!g.ok)return'';await c.put(key,g.clone());r=g}
+  return imgCache[name]=URL.createObjectURL(await r.blob());
+}
+function shrink(file,max=900){
+  return new Promise((res,rej)=>{
+    const u=URL.createObjectURL(file),im=new Image();
+    im.onload=()=>{const s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');
+      c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',.75))};
+    im.onerror=()=>rej(new Error('Kuvaa ei voitu lukea'));im.src=u;
+  });
+}
+
+/* Refresh */
+async function refresh(manual){
+  if(!cfg.repo||!cfg.token){openSettings();return}
+  const b=$('#sync');b.classList.add('spin');
+  try{const{list}=await readData();items=list;save('items',items);render();if(manual)toast('Lista päivitetty')}
+  catch(e){toast(navigator.onLine?e.message:'Ei verkkoyhteyttä – näytetään tallennettu lista',4000)}
+  b.classList.remove('spin');
+}
+
+/* Render */
+const num=s=>parseInt(s,10)||0;
+function buildFilters(){
+  const ts=[...new Set(items.map(i=>i.type))].sort(),ss=[...new Set(items.map(i=>i.size))].sort((a,b)=>num(a)-num(b));
+  $('#ft').innerHTML='<option value="">Kaikki tyypit</option>'+ts.map(t=>`<option ${t===f.type?'selected':''}>${esc(t)}</option>`).join('');
+  $('#fs').innerHTML='<option value="">Kaikki koot</option>'+ss.map(t=>`<option ${t===f.size?'selected':''}>${esc(t)}</option>`).join('');
+}
+function render(){
+  buildFilters();
+  const q=f.q.toLowerCase();
+  const list=items.filter(i=>(!f.cat||i.cat===f.cat)&&(!f.type||i.type===f.type)&&(!f.size||i.size===f.size)&&(!f.wp||i.wp)&&(!f.wr||i.wr)&&(!q||(i.type+' '+i.size+' '+(i.note||'')).toLowerCase().includes(q)))
+    .sort((a,b)=>num(a.size)-num(b.size)||a.type.localeCompare(b.type,'fi'));
+  $('#count').textContent=`${list.length} / ${items.length} vaatetta`;
+  $('#grid').innerHTML=list.length?list.map(i=>`<button class="c" data-id="${i.id}"><div class="ph">${i.photo?`<img data-p="${esc(i.photo)}" alt="">`:'👕'}</div><div class="in"><div class="t">${esc(i.type)}</div><span class="s">${esc(i.size)}</span><div class="b">${i.cat==='out'?'<i>ulko</i>':''}${i.wp?'<i>vedenpitävä</i>':''}${i.wr?'<i>vettähylkivä</i>':''}</div>${i.note?`<div class="n">${esc(i.note)}</div>`:''}</div></button>`).join(''):`<div class="empty">${items.length?'Ei vaatteita näillä suodattimilla.':'Lista on tyhjä. Lisää ensimmäinen vaate painikkeesta.'}</div>`;
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){io.unobserve(e.target);const el=e.target;imgUrl(el.dataset.p).then(u=>{if(u)el.src=u})}}),{rootMargin:'200px'});
+  document.querySelectorAll('img[data-p]').forEach(el=>io.observe(el));
+}
+
+/* Filters */
+$('#cat').onclick=e=>{const b=e.target.closest('button');if(!b)return;f.cat=b.dataset.v;[...$('#cat').children].forEach(x=>x.classList.toggle('on',x===b));render()};
+$('#q').oninput=e=>{f.q=e.target.value;render()};
+$('#ft').onchange=e=>{f.type=e.target.value;render()};
+$('#fs').onchange=e=>{f.size=e.target.value;render()};
+$('#fwp').onchange=e=>{f.wp=e.target.checked;render()};
+$('#fwr').onchange=e=>{f.wr=e.target.checked;render()};
+$('#sync').onclick=()=>refresh(true);
+
+/* Edit */
+$('#et').innerHTML=TYPES.map(t=>`<option>${t[0]}</option>`).join('');
+function fillSizes(sel){
+  const arr=$('#et').value==='Kengät'?SHOES:SIZES;
+  $('#es').innerHTML=arr.map(s=>`<option ${s===sel?'selected':''}>${s}</option>`).join('');
+}
+function setCat(v){[...$('#ecat').children].forEach(b=>b.classList.toggle('on',b.dataset.v===v));$('#ewrap').style.display=v==='out'?'flex':'none';if(v!=='out'){$('#ewp').checked=false;$('#ewr').checked=false}}
+const getCat=()=>$('#ecat .on').dataset.v;
+$('#ecat').onclick=e=>{const b=e.target.closest('button');if(b)setCat(b.dataset.v)};
+$('#et').onchange=()=>{fillSizes($('#es').value);setCat(TYPES.find(t=>t[0]===$('#et').value)[1])};
+$('#ef').onchange=async e=>{
+  const file=e.target.files[0];if(!file)return;
+  try{newPhoto=await shrink(file);$('#pv').src=newPhoto;$('#pv').style.display='block'}catch(err){toast(err.message)}
+};
+function openEdit(id){
+  cur=id?items.find(i=>i.id===id):null;newPhoto=null;$('#ef').value='';
+  $('#edt').textContent=cur?'Muokkaa vaatetta':'Uusi vaate';
+  $('#et').value=cur?cur.type:'Body';fillSizes(cur?cur.size:'62');
+  setCat(cur?cur.cat:'in');
+  $('#ewp').checked=!!cur?.wp;$('#ewr').checked=!!cur?.wr;$('#en').value=cur?.note||'';
+  $('#edel').style.display=cur?'':'none';
+  const pv=$('#pv');pv.style.display='none';
+  if(cur?.photo)imgUrl(cur.photo).then(u=>{if(u){pv.src=u;pv.style.display='block'}});
+  $('#ed').showModal();
+}
+$('#fab').onclick=()=>openEdit();
+$('#grid').onclick=e=>{const c=e.target.closest('.c');if(c)openEdit(c.dataset.id)};
+$('#ecan').onclick=()=>$('#ed').close();
+$('#esave').onclick=async()=>{
+  const btn=$('#esave');btn.disabled=true;btn.textContent='Tallennetaan…';
+  try{
+    const id=cur?.id||Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+    let photo=cur?.photo||'',oldPhoto='';
+    if(newPhoto){
+      const name=id+'-'+Date.now().toString(36)+'.jpg';
+      const r=await gh('images/'+name,{method:'PUT',body:JSON.stringify({message:'Lisää kuva',content:newPhoto.split(',')[1]})});
+      if(!r.ok)throw new Error('Kuvan tallennus epäonnistui ('+r.status+')');
+      imgCache[name]=newPhoto;oldPhoto=photo;photo=name;
+    }
+    const it={id,type:$('#et').value,size:$('#es').value,cat:getCat(),wp:$('#ewp').checked,wr:$('#ewr').checked,note:$('#en').value.trim(),photo,ts:Date.now()};
+    await mutate(list=>{const k=list.findIndex(x=>x.id===id);if(k>=0)list[k]=it;else list.push(it);return list},(cur?'Muokkaa: ':'Lisää: ')+it.type+' '+it.size);
+    if(oldPhoto)delImg(oldPhoto);
+    $('#ed').close();render();toast('Tallennettu');
+  }catch(e){toast(e.message,4000)}
+  btn.disabled=false;btn.textContent='Tallenna';
+};
+async function delImg(name){try{const r=await gh('images/'+name);if(r.ok){const j=await r.json();await gh('images/'+name,{method:'DELETE',body:JSON.stringify({message:'Poista kuva',sha:j.sha})})}}catch(e){}}
+$('#edel').onclick=async()=>{
+  if(!cur||!confirm('Poistetaanko vaate listalta kaikilta?'))return;
+  try{const id=cur.id,ph=cur.photo;await mutate(l=>l.filter(x=>x.id!==id),'Poista: '+cur.type);if(ph)delImg(ph);$('#ed').close();render();toast('Poistettu')}
+  catch(e){toast(e.message,4000)}
+};
+
+/* Settings */
+function openSettings(){$('#sr').value=cfg.repo||'';$('#sk').value=cfg.token||'';$('#st').showModal()}
+$('#cog').onclick=openSettings;
+$('#scan').onclick=()=>$('#st').close();
+$('#ssave').onclick=()=>{cfg={repo:$('#sr').value.trim().replace(/^https?:\/\/github\.com\//,'').replace(/\/$/,''),token:$('#sk').value.trim()};save('cfg',cfg);$('#st').close();refresh(true)};
+
+/* Share settings: QR + link */
+const shareLink=()=>location.origin+location.pathname+'#s='+encodeURIComponent(btoa(JSON.stringify({repo:cfg.repo,token:cfg.token})));
+function importLink(str){
+  const m=String(str).match(/#?s=([^&\s]+)/);if(!m)return false;
+  try{const c=JSON.parse(atob(decodeURIComponent(m[1])));if(!c.repo||!c.token)return false;cfg={repo:c.repo,token:c.token};save('cfg',cfg);return true}catch(e){return false}
+}
+$('#sqr').onclick=async()=>{
+  if(!cfg.repo||!cfg.token){toast('Tallenna ensin asetukset');return}
+  try{
+    if(!window.qrcode)await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';s.onload=ok;s.onerror=()=>no(new Error('QR-kirjaston lataus vaatii verkkoyhteyden'));document.head.appendChild(s)});
+    const q=qrcode(0,'L');q.addData(shareLink());q.make();
+    $('#qrimg').src=q.createDataURL(6,0);$('#qrbox').style.display='block';
+  }catch(e){toast(e.message,4000)}
+};
+$('#scopy').onclick=async()=>{try{await navigator.clipboard.writeText(shareLink());toast('Linkki kopioitu')}catch(e){toast('Kopiointi ei onnistunut')}};
+$('#sl').oninput=e=>{if(importLink(e.target.value)){e.target.value='';$('#st').close();refresh(true)}};
+
+/* Start */
+if(location.hash.startsWith('#s=')&&importLink(location.hash)){history.replaceState(null,'',location.pathname);setTimeout(()=>toast('Asetukset otettu käyttöön'),300)}
+render();refresh();
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refresh()});
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
